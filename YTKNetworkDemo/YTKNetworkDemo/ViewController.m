@@ -14,6 +14,8 @@
 #import "RegisterApi.h"
 #import "YTKBaseRequest+AnimatingAccessory.h"
 
+#import "AYNetwork.h"
+
 @interface ViewController ()<YTKChainRequestDelegate>
 
 @end
@@ -86,6 +88,85 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    /* POST
+    AYRequest *request = [[AYRequest alloc] initWithUrl:@"https://itunes.apple.com/cn/lookup?id=670910957" parameters:nil method:AYRequestMethodPOST];
+    [request startWithCompletionBlockWithSuccess:^(__kindof AYRequest * _Nonnull request) {
+        NSDictionary *data = request.responseObject;
+//        NSLog(@"data = %@", data);
+        NSDictionary *info = [data[@"results"] firstObject];
+        NSString *appStoreVersion = info[@"version"];
+        if ([@"1.0.0" compare:appStoreVersion options:NSNumericSearch] == NSOrderedAscending) {  //有新版本
+
+            NSLog(@"有新版本");
+        }
+    } failure:^(__kindof AYRequest * _Nonnull request) {
+        ;
+    }];
+    // */
+    
+    AYRequest *downloadRequest = [[AYRequest alloc] initWithMethod:AYRequestMethodGET url:@"https://www.mediaatelier.com/CheatSheet/CheatSheet_1.2.9.zip" parameters:nil];
+    downloadRequest.timeoutInterval = 60;
+    
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [docPath stringByAppendingPathComponent:@"Download/CheatSheet"];
+
+    downloadRequest.downloadDirectoryPath = filePath;
+    
+    downloadRequest.downloadProgressBlock = ^(NSProgress * _Nonnull progress) {
+        NSLog(@"progress = %.2f%%", (double)progress.completedUnitCount * 100.0 / (double)progress.totalUnitCount);
+    };
+    
+    downloadRequest.successCompletionBlock = ^(__kindof AYRequest * _Nonnull request) {
+        NSLog(@"%@下载完成", request.requestUrl);
+    };
+    
+    downloadRequest.failureCompletionBlock = ^(__kindof AYRequest * _Nonnull request) {
+        NSLog(@"%@下载失败", request.requestUrl);
+    };
+    
+//    [downloadRequest startWithCompletionBlockWithSuccess:^(__kindof AYRequest * _Nonnull request) {
+//        NSLog(@"%@下载完成", request.requestUrl);
+//    } failure:^(__kindof AYRequest * _Nonnull request) {
+//        NSLog(@"%@下载失败", request.requestUrl);
+//    }];
+    
+    //* DOWNLOAD
+    AYRequest *downloadRequest0 = [[AYRequest alloc] initWithMethod:AYRequestMethodGET url:@"https://www.mediaatelier.com/CheatSheet/CheatSheet_1.6.0.1.zip" parameters:nil];
+
+    downloadRequest0.timeoutInterval = 60;
+
+    downloadRequest0.downloadDirectoryPath = filePath;
+    
+    downloadRequest0.downloadProgressBlock = ^(NSProgress * _Nonnull progress) {
+        NSLog(@"progress0 = %.2f%%", (double)progress.completedUnitCount * 100.0 / (double)progress.totalUnitCount);
+    };
+    
+    downloadRequest0.successCompletionBlock = ^(__kindof AYRequest * _Nonnull request) {
+        NSLog(@"%@下载完成", request.requestUrl);
+        NSLog(@"request userInfo = %@", request.userInfo);
+    };
+    
+    downloadRequest0.failureCompletionBlock = ^(__kindof AYRequest * _Nonnull request) {
+        NSLog(@"%@下载失败", request.requestUrl);
+    };
+    
+    downloadRequest0.configCurrentRequestBlock = ^(AYRequest * _Nonnull lastRequest, AYRequest * _Nonnull currentRequest) {
+        NSLog(@"lastRequest url = %@", lastRequest.requestUrl);
+        
+        currentRequest.userInfo = @{@"lastUrl": lastRequest.requestUrl ?: @""};
+    };
+    
+//    [downloadRequest0 startWithCompletionBlockWithSuccess:^(__kindof AYRequest * _Nonnull request) {
+//        NSLog(@"%@下载完成", request.requestUrl);
+//    } failure:^(__kindof AYRequest * _Nonnull request) {
+//        NSLog(@"%@下载失败", request.requestUrl);
+//    }];
+     // */
+    
+    AYQueueRequest *qRequest = [[AYQueueRequest alloc] initWithRequests:@[downloadRequest, downloadRequest0]];
+    [qRequest start];
+
 }
 
 - (void)didReceiveMemoryWarning {
