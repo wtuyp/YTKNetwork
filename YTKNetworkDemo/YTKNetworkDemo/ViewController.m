@@ -151,7 +151,7 @@
         NSLog(@"%@下载失败", request.requestUrl);
     };
     
-    downloadRequest0.configCurrentRequestBlock = ^(AYRequest * _Nonnull lastRequest, AYRequest * _Nonnull currentRequest) {
+    downloadRequest0.configBeforeStartRequestInQueueBlock = ^(AYRequest * _Nonnull lastRequest, AYRequest * _Nonnull currentRequest) {
         NSLog(@"lastRequest url = %@", lastRequest.requestUrl);
         
         currentRequest.userInfo = @{@"lastUrl": lastRequest.requestUrl ?: @""};
@@ -165,8 +165,13 @@
      // */
     
     AYQueueRequest *qRequest = [[AYQueueRequest alloc] initWithRequests:@[downloadRequest, downloadRequest0]];
+    qRequest.successCompletionBlock = ^(__kindof AYQueueRequest * _Nonnull qRequest) {
+        NSLog(@"全部下载完成");
+    };
+    qRequest.failureCompletionBlock = ^(__kindof AYQueueRequest * _Nonnull qRequest, __kindof AYRequest * _Nonnull failureRequest) {
+        NSLog(@"下载失败");
+    };
     [qRequest start];
-
 }
 
 - (void)didReceiveMemoryWarning {

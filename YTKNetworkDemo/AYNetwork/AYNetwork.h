@@ -1,9 +1,7 @@
 //
 //  AYNetwork.h
-//  YTKNetworkDemo
 //
 //  Created by yu on 2021/11/24.
-//  Copyright © 2021 yuantiku.com. All rights reserved.
 //
 
 #ifndef AYNetwork_h

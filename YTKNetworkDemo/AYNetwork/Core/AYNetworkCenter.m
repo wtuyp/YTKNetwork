@@ -46,19 +46,17 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _manager = [[AFHTTPSessionManager alloc] init];
+        pthread_mutex_init(&_lock, NULL);
         
         _requestRecords = [NSMutableDictionary dictionary];
         _processingQueue = dispatch_queue_create("com.ay.network.center.processing", DISPATCH_QUEUE_CONCURRENT);
         _allStatusCodes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(100, 500)];
-        pthread_mutex_init(&_lock, NULL);
-        
+        _debugLogEnabled = YES;
+
+        _manager = [[AFHTTPSessionManager alloc] init];
         _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         _manager.responseSerializer.acceptableStatusCodes = _allStatusCodes;
-        
         _manager.completionQueue = _processingQueue;
-        
-        _debugLogEnabled = YES;
     }
     return self;
 }
@@ -375,15 +373,13 @@
 - (void)requestDidSucceedWithRequest:(AYRequest *)request {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        //        [request toggleAccessoriesWillStopCallBack];
+        if (request.successCompletionBlock) {
+            request.successCompletionBlock(request);
+        }
         
         if ([request.delegate respondsToSelector:@selector(requestFinished:)]) {
             [request.delegate requestFinished:request];
         }
-        if (request.successCompletionBlock) {
-            request.successCompletionBlock(request);
-        }
-        //        [request toggleAccessoriesDidStopCallBack];
     });
 }
 
@@ -415,15 +411,13 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        //        [request toggleAccessoriesWillStopCallBack];
+        if (request.failureCompletionBlock) {
+            request.failureCompletionBlock(request);
+        }
         
         if ([request.delegate respondsToSelector:@selector(requestFailed:)]) {
             [request.delegate requestFailed:request];
         }
-        if (request.failureCompletionBlock) {
-            request.failureCompletionBlock(request);
-        }
-        //        [request toggleAccessoriesDidStopCallBack];
     });
 }
 
