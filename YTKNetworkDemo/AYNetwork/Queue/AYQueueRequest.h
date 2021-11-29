@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class AYQueueRequest;
 
-typedef void(^AYQueueRequestSuccessBlock)(__kindof AYQueueRequest *qRequest);
-typedef void(^AYQueueRequestFailureBlock)(__kindof AYQueueRequest *qRequest, __kindof AYRequest *failureRequest);
+typedef void (^AYQueueRequestSuccessBlock)(__kindof AYQueueRequest *qRequest);
+typedef void (^AYQueueRequestFailureBlock)(__kindof AYQueueRequest *qRequest, __kindof AYRequest *failureRequest);
 
 @protocol AYQueueRequestDelegate <NSObject>
 
@@ -33,6 +33,9 @@ typedef void(^AYQueueRequestFailureBlock)(__kindof AYQueueRequest *qRequest, __k
 - (instancetype)initWithRequests:(NSArray<__kindof AYRequest *> *)requests;
 
 - (void)start;
+- (void)startWithCompletionBlockWithSuccess:(nullable AYQueueRequestSuccessBlock)success
+                                    failure:(nullable AYQueueRequestFailureBlock)failure;
+
 - (void)stop;
 
 @end

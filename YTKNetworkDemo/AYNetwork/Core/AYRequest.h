@@ -36,7 +36,6 @@ typedef NS_ENUM(NSInteger, AYRequestPriority) {
     AYRequestPriorityHigh = 4,
 };
 
-
 typedef NS_ENUM(NSInteger, AYRequestError) {
     AYRequestErrorInvalidStatusCode = -10000,
     AYRequestErrorInvalidJSONFormat= -10001,
@@ -49,7 +48,7 @@ typedef void (^AYRequestProgressBlock)(NSProgress * progress);
 
 @class AYRequest;
 
-typedef void(^AYRequestCompletionBlock)(__kindof AYRequest *request);
+typedef void (^AYRequestCompletionBlock)(__kindof AYRequest *request);
 
 @protocol AYRequestDelegate <NSObject>
 

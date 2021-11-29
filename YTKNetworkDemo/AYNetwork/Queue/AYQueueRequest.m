@@ -42,6 +42,13 @@
     [[AYQueueRequestManager sharedManager] addQueueRequest:self];
 }
 
+- (void)startWithCompletionBlockWithSuccess:(nullable AYQueueRequestSuccessBlock)success
+                                    failure:(nullable AYQueueRequestFailureBlock)failure {
+    self.successCompletionBlock = success;
+    self.failureCompletionBlock = failure;
+    [self start];
+}
+
 - (void)stop {
     AYRequest *currentRequest = self.requests[self.requestIndex];
     [currentRequest stop];
