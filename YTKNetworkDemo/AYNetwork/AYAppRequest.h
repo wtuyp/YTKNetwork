@@ -32,7 +32,6 @@ typedef NSDictionary<NSString *, id> AYRequestDic;
 @property (nonatomic, assign) BOOL showSuccessHUD;  // 默认 NO
 @property (nonatomic, copy) NSString *successHUDText;
 
-@property (nonatomic, assign) BOOL showErrorHUD;    // 默认 YES
 @property (nonatomic, assign) BOOL showFailureHUD;  // 默认 YES
 
 /**

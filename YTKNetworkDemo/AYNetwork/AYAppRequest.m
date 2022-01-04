@@ -36,7 +36,6 @@
     self = [super init];
     if (self) {
         _showWaitingHUD = YES;
-        _showErrorHUD = YES;
         _showFailureHUD = YES;
     }
     return self;
@@ -128,9 +127,9 @@
             }
         }
     } else {
-        if (self.showErrorHUD) {
-            if ([AYRequestHUD respondsToSelector:@selector(showHUDErrorWithText:inView:)] ) {
-                [AYRequestHUD showHUDErrorWithText:self.error.localizedDescription inView:self.hudView];
+        if (self.showFailureHUD) {
+            if ([AYRequestHUD respondsToSelector:@selector(showHUDFailureWithText:inView:)] ) {
+                [AYRequestHUD showHUDFailureWithText:self.error.localizedDescription inView:self.hudView];
             }
         }
     }

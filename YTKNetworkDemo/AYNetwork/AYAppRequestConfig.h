@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)hideHUDWaiting;
 
 - (void)showHUDSuccessWithText:(nullable NSString *)text inView:(nullable UIView *)view;
-- (void)showHUDErrorWithText:(nullable NSString *)text inView:(nullable UIView *)view;
 - (void)showHUDFailureWithText:(nullable NSString *)text inView:(nullable UIView *)view;
 
 @end
