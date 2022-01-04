@@ -371,15 +371,22 @@
 }
 
 - (void)requestDidSucceedWithRequest:(AYRequest *)request {
+    @autoreleasepool {
+        [request requestSuccessPreHandle];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [request requestSuccessHandleBegin];
+        
         if (request.successCompletionBlock) {
             request.successCompletionBlock(request);
         }
         
-        if ([request.delegate respondsToSelector:@selector(requestFinished:)]) {
-            [request.delegate requestFinished:request];
+        if ([request.delegate respondsToSelector:@selector(requestSuccess:)]) {
+            [request.delegate requestSuccess:request];
         }
+        
+        [request requestSuccessHandleEnd];
     });
 }
 
@@ -410,14 +417,21 @@
         request.downloadLocalFilePath = nil;
     }
     
+    @autoreleasepool {
+        [request requestFailurePreHandle];
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
+        [request requestFailureHandleBegin];
+        
         if (request.failureCompletionBlock) {
             request.failureCompletionBlock(request);
         }
         
-        if ([request.delegate respondsToSelector:@selector(requestFailed:)]) {
-            [request.delegate requestFailed:request];
+        if ([request.delegate respondsToSelector:@selector(requestFailure:)]) {
+            [request.delegate requestFailure:request];
         }
+        
+        [request requestFailureHandleEnd];
     });
 }
 

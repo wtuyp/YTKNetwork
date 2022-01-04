@@ -89,6 +89,14 @@ NSString *const AYRequestErrorDomain = @"com.ay.request.domain.error";
 //    [self.requestAccessories addObject:accessory];
 //}
 
+- (void)requestSuccessPreHandle {}
+- (void)requestSuccessHandleBegin {}
+- (void)requestSuccessHandleEnd {}
+
+- (void)requestFailurePreHandle {}
+- (void)requestFailureHandleBegin {}
+- (void)requestFailureHandleEnd {}
+
 #pragma mark - Request Action
 
 - (void)start {

@@ -38,7 +38,6 @@ typedef NS_ENUM(NSInteger, AYRequestPriority) {
 
 typedef NS_ENUM(NSInteger, AYRequestError) {
     AYRequestErrorInvalidStatusCode = -10000,
-    AYRequestErrorInvalidJSONFormat= -10001,
 };
 
 @protocol AFMultipartFormData;
@@ -54,8 +53,8 @@ typedef void (^AYRequestCompletionBlock)(__kindof AYRequest *request);
 
 @optional
 
-- (void)requestFinished:(__kindof AYRequest *)request;
-- (void)requestFailed:(__kindof AYRequest *)request;
+- (void)requestSuccess:(__kindof AYRequest *)request;
+- (void)requestFailure:(__kindof AYRequest *)request;
 
 @end
 
@@ -90,7 +89,7 @@ typedef void (^AYRequestCompletionBlock)(__kindof AYRequest *request);
  */
 @property (nonatomic, strong) NSURLSessionTask *requestTask;
 @property (nonatomic, strong, readonly) NSHTTPURLResponse *response;    // requestTask.response
-@property (nonatomic, strong, nullable) id responseObject;  // 序列化后的数据对象，类型由 AYResponseSerializerType 决定 (data, json, xml...)
+@property (nonatomic, strong, nullable) id responseObject;  // 序列化后的数据对象，类型由 AYResponseSerializerType 决定 (data, dic/array, xml...)
 @property (nonatomic, strong, nullable) NSError *error;
 
 @property (nonatomic, readonly) BOOL isCancelled;
@@ -136,6 +135,19 @@ typedef void (^AYRequestCompletionBlock)(__kindof AYRequest *request);
 
 //@property (nonatomic, strong, nullable) NSMutableArray<id<AYRequestAccessory>> *requestAccessories;
 //- (void)addAccessory:(id<AYRequestAccessory>)accessory;
+
+/**
+ 子类看情况实现
+ pre 在 begin 前调用，在请求线程上。
+ begin 在 delegate \ block 前调用，end 在 delegate \ block 后调用。在主线程上。
+ */
+- (void)requestSuccessPreHandle;
+- (void)requestSuccessHandleBegin;
+- (void)requestSuccessHandleEnd;
+
+- (void)requestFailurePreHandle;
+- (void)requestFailureHandleBegin;
+- (void)requestFailureHandleEnd;
 
 @end
 
