@@ -57,7 +57,7 @@
 
 #pragma mark - AYRequestDelegate
 
-- (void)requestFinished:(__kindof AYRequest *)request {
+- (void)requestSuccess:(__kindof AYRequest *)request {
     self.requestIndex++;
     if (self.requestIndex >= self.requests.count) { // 请求全部完成
         if (_successCompletionBlock) {
@@ -80,7 +80,7 @@
     [currentRequest start];
 }
 
-- (void)requestFailed:(__kindof AYRequest *)request {
+- (void)requestFailure:(__kindof AYRequest *)request {
     if (_failureCompletionBlock) {
         _failureCompletionBlock(self, request);
     }
