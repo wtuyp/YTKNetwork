@@ -9,5 +9,6 @@
 
 #import "AYRequest.h"
 #import "AYQueueRequest.h"
+#import "AYAppRequestConfig.h"
 
 #endif /* AYNetwork_h */

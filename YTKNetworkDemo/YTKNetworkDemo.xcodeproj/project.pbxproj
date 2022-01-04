@@ -21,6 +21,8 @@
 		9ABEF48B2748D86F00787FFE /* AYNetworkCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ABEF48A2748D86F00787FFE /* AYNetworkCenter.m */; };
 		9AD71C13274E07B00083F134 /* AYQueueRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD71C12274E07B00083F134 /* AYQueueRequest.m */; };
 		9AD71C18274F20DC0083F134 /* AYQueueRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD71C17274F20DC0083F134 /* AYQueueRequestManager.m */; };
+		9AD71C1E274F67460083F134 /* AYAppRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD71C1D274F67460083F134 /* AYAppRequest.m */; };
+		9AD71C212750B5B50083F134 /* AYAppRequestConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD71C202750B5B50083F134 /* AYAppRequestConfig.m */; };
 		BF007FD919FF972C00816462 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF007FD819FF972C00816462 /* main.m */; };
 		BF007FDC19FF972C00816462 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF007FDB19FF972C00816462 /* AppDelegate.m */; };
 		BF007FDF19FF972C00816462 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF007FDE19FF972C00816462 /* ViewController.m */; };
@@ -71,6 +73,10 @@
 		9AD71C14274E232F0083F134 /* AYNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYNetwork.h; sourceTree = "<group>"; };
 		9AD71C16274F20DC0083F134 /* AYQueueRequestManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYQueueRequestManager.h; sourceTree = "<group>"; };
 		9AD71C17274F20DC0083F134 /* AYQueueRequestManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYQueueRequestManager.m; sourceTree = "<group>"; };
+		9AD71C1C274F67460083F134 /* AYAppRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYAppRequest.h; sourceTree = "<group>"; };
+		9AD71C1D274F67460083F134 /* AYAppRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYAppRequest.m; sourceTree = "<group>"; };
+		9AD71C1F2750B5B50083F134 /* AYAppRequestConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYAppRequestConfig.h; sourceTree = "<group>"; };
+		9AD71C202750B5B50083F134 /* AYAppRequestConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYAppRequestConfig.m; sourceTree = "<group>"; };
 		BF007FD319FF972C00816462 /* YTKNetworkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YTKNetworkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF007FD719FF972C00816462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF007FD819FF972C00816462 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -142,6 +148,10 @@
 				9AD71C15274F20400083F134 /* Queue */,
 				9AD71C10274DEBD00083F134 /* Core */,
 				9AD71C14274E232F0083F134 /* AYNetwork.h */,
+				9AD71C1C274F67460083F134 /* AYAppRequest.h */,
+				9AD71C1D274F67460083F134 /* AYAppRequest.m */,
+				9AD71C1F2750B5B50083F134 /* AYAppRequestConfig.h */,
+				9AD71C202750B5B50083F134 /* AYAppRequestConfig.m */,
 			);
 			path = AYNetwork;
 			sourceTree = "<group>";
@@ -395,12 +405,14 @@
 				45BF1D461A0DC66E00DDB7E0 /* GetImageApi.m in Sources */,
 				BF007FDF19FF972C00816462 /* ViewController.m in Sources */,
 				20D2D9721D268808009E13A2 /* YTKAnimatingRequestAccessory.m in Sources */,
+				9AD71C212750B5B50083F134 /* AYAppRequestConfig.m in Sources */,
 				45AB19C11A4656A600680858 /* YTKUrlArgumentsFilter.m in Sources */,
 				45BF1D431A0DC40F00DDB7E0 /* GetUserInfoApi.m in Sources */,
 				9AD71C18274F20DC0083F134 /* AYQueueRequestManager.m in Sources */,
 				BF007FDC19FF972C00816462 /* AppDelegate.m in Sources */,
 				45F710841A466D01001957BA /* UploadImageApi.m in Sources */,
 				BF007FD919FF972C00816462 /* main.m in Sources */,
+				9AD71C1E274F67460083F134 /* AYAppRequest.m in Sources */,
 				20D2D9751D268808009E13A2 /* YTKChainRequest+AnimatingAccessory.m in Sources */,
 				9ABEF48B2748D86F00787FFE /* AYNetworkCenter.m in Sources */,
 				9AD71C13274E07B00083F134 /* AYQueueRequest.m in Sources */,
