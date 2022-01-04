@@ -9,15 +9,8 @@
 
 @interface AYAppRequest ()
 
-@property (nonatomic, assign) BOOL isResponseSuccess;
+@property (nonatomic, assign) BOOL isSuccess;
 @property (nonatomic, strong) NSDictionary *responseDataDic;
-//@property (nonatomic, assign) NSInteger code;
-//@property (nonatomic, copy) NSString *message;
-
-
-
-
-@property (nonatomic, weak) UIView *hudView;
 
 /**
  模型转换
@@ -53,12 +46,12 @@
     return request;
 }
 
-#pragma mark - Overwrite
+#pragma mark - Override
 
 - (void)start {
     if (self.showWaitingHUD) {
         if ([AYRequestHUD respondsToSelector:@selector(showHUDWaitingWithText:inView:)] ) {
-            [AYRequestHUD showHUDWaitingWithText:self.waitingHUDText inView:self.hudView];
+            [AYRequestHUD showHUDWaitingWithText:self.waitingHUDText inView:self.showingHudView];
         }
     }
     
@@ -85,9 +78,15 @@
         if ([responseDataDic isKindOfClass:[NSDictionary class]]) {
             if (code == AYRequestSharedConfig.successCode) {
                 self.responseDataDic = responseDataDic;
-                self.isResponseSuccess = YES;
+                self.isSuccess = YES;
                 
                 if (self.modelClass) {
+                    if (![AYRequestJsonToModel respondsToSelector:@selector(modelWithClass:fromJson:isArray:error:)]) {
+                        self.error = [NSError errorWithDomain:AYRequestErrorDomain code:AYAppRequestErrorJsonToModel userInfo:@{NSLocalizedDescriptionKey: @"未实现'AYAppNetworkPluginJsonToModel'代理"}];
+                        self.isSuccess = NO;
+                        return;
+                    }
+                    
                     NSError *toModelError = nil;
                     id json = responseDataDic;
                     if (self.isArray && self.arraykeyPath) {
@@ -97,18 +96,18 @@
                     id toModel = [AYRequestJsonToModel modelWithClass:self.modelClass fromJson:json isArray:self.isArray error:&toModelError];
                     if (toModelError) {
                         self.error = [NSError errorWithDomain:AYRequestErrorDomain code:AYAppRequestErrorJsonToModel userInfo:@{NSLocalizedDescriptionKey: toModelError.localizedDescription}];
-                        self.isResponseSuccess = NO;
+                        self.isSuccess = NO;
                     } else {
                         self.isArray ? (self.responseModels = (NSArray *)toModel) : (self.responseModel = toModel);
                     }
                 }
             } else {
                 self.error = [NSError errorWithDomain:AYRequestErrorDomain code:code userInfo:@{NSLocalizedDescriptionKey: message ?: @"网络请求错误"}];
-                self.isResponseSuccess = NO;
+                self.isSuccess = NO;
             }
         } else {
-            self.error = [NSError errorWithDomain:AYRequestErrorDomain code:code userInfo:@{NSLocalizedDescriptionKey: @"返回数据格式错误"}];
-            self.isResponseSuccess = NO;
+            self.error = [NSError errorWithDomain:AYRequestErrorDomain code:AYAppRequestErrorNotDictionary userInfo:@{NSLocalizedDescriptionKey: @"返回数据不是字典类型"}];
+            self.isSuccess = NO;
         }
     }
 }
@@ -120,16 +119,16 @@
         }
     }
     
-    if (self.isResponseSuccess) {
+    if (self.isSuccess) {
         if (self.showSuccessHUD) {
             if ([AYRequestHUD respondsToSelector:@selector(showHUDSuccessWithText:inView:)] ) {
-                [AYRequestHUD showHUDSuccessWithText:self.successHUDText inView:self.hudView];
+                [AYRequestHUD showHUDSuccessWithText:self.successHUDText inView:self.showingHudView];
             }
         }
     } else {
         if (self.showFailureHUD) {
             if ([AYRequestHUD respondsToSelector:@selector(showHUDFailureWithText:inView:)] ) {
-                [AYRequestHUD showHUDFailureWithText:self.error.localizedDescription inView:self.hudView];
+                [AYRequestHUD showHUDFailureWithText:self.error.localizedDescription inView:self.showingHudView];
             }
         }
     }
@@ -144,15 +143,25 @@
     
     if (self.showFailureHUD) {
         if ([AYRequestHUD respondsToSelector:@selector(showHUDFailureWithText:inView:)] ) {
-            [AYRequestHUD showHUDFailureWithText:self.error.localizedDescription inView:self.hudView];
+            [AYRequestHUD showHUDFailureWithText:self.error.localizedDescription inView:self.showingHudView];
         }
     }
 }
 
 #pragma mark - Public
 
-- (void)startInView:(nullable UIView *)view {
-    self.hudView = view;
+- (void)configShowHUDInView:(nullable UIView *)view
+                waitingText:(nullable NSString *)waitingText
+                successText:(nullable NSString *)successText {
+    self.showingHudView = view;
+    if (waitingText) {
+        self.showWaitingHUD = YES;
+        self.waitingHUDText = waitingText;
+    }
+    if (successText) {
+        self.showSuccessHUD = YES;
+        self.successHUDText = successText;
+    }
 }
 
 - (void)configModelArrayWithClass:(Class)modelClass keyPath:(nullable NSString *)keyPath {

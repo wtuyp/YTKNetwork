@@ -15,25 +15,29 @@ typedef NS_ENUM(NSInteger, AYAppRequestError) {
 
 @class UIView;
 
-typedef NSDictionary<NSString *, id> AYRequestDic;
-
+typedef NSMutableDictionary<NSString *, id> AYAppRequestParamDic;
 
 @interface AYAppRequest : AYRequest
 
-@property (nonatomic, assign, readonly) BOOL isResponseSuccess; // 没有任何error，则成功
+@property (nonatomic, assign, readonly) BOOL isSuccess;     // 没有任何error，则成功
 @property (nonatomic, strong, readonly) NSDictionary *responseDataDic;
 
 /**
  HUD显示
  */
 @property (nonatomic, assign) BOOL showWaitingHUD;  // 默认 YES
-@property (nonatomic, copy) NSString *waitingHUDText;
+@property (nonatomic, copy, nullable) NSString *waitingHUDText;
 
 @property (nonatomic, assign) BOOL showSuccessHUD;  // 默认 NO
-@property (nonatomic, copy) NSString *successHUDText;
+@property (nonatomic, copy, nullable) NSString *successHUDText;
 
 @property (nonatomic, assign) BOOL showFailureHUD;  // 默认 YES
 
+@property (nonatomic, weak) UIView *showingHudView; ///< 显示 HUD 的视图
+
+- (void)configShowHUDInView:(nullable UIView *)view
+                waitingText:(nullable NSString *)waitingText
+                successText:(nullable NSString *)successText;
 /**
  模型转换
  */
@@ -45,16 +49,7 @@ typedef NSDictionary<NSString *, id> AYRequestDic;
 // keyPath 基于 responseDataDic
 - (void)configModelArrayWithClass:(Class)modelClass keyPath:(nullable NSString *)keyPath;
 
-/**
- 分页
- */
-@property (nonatomic, assign) NSInteger page;
-@property (nonatomic, assign) NSInteger pageSize;
-@property (nonatomic, assign) NSInteger total;
-
 + (instancetype)downloadRequestWithUrl:(NSString *)url;
-
-- (void)startInView:(nullable UIView *)view;
 
 @end
 

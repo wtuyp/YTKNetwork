@@ -133,9 +133,6 @@ typedef void (^AYRequestCompletionBlock)(__kindof AYRequest *request);
 - (void)stop;
 - (void)clearCompletionBlock;
 
-//@property (nonatomic, strong, nullable) NSMutableArray<id<AYRequestAccessory>> *requestAccessories;
-//- (void)addAccessory:(id<AYRequestAccessory>)accessory;
-
 /**
  子类看情况实现
  pre 在 begin 前调用，在请求线程上。

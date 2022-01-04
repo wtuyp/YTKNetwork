@@ -81,13 +81,6 @@ NSString *const AYRequestErrorDomain = @"com.ay.request.domain.error";
     self.failureCompletionBlock = nil;
     self.uploadProgressBlock = nil;
 }
-//
-//- (void)addAccessory:(id<AYRequestAccessory>)accessory {
-//    if (!self.requestAccessories) {
-//        self.requestAccessories = [NSMutableArray array];
-//    }
-//    [self.requestAccessories addObject:accessory];
-//}
 
 - (void)requestSuccessPreHandle {}
 - (void)requestSuccessHandleBegin {}
@@ -100,15 +93,12 @@ NSString *const AYRequestErrorDomain = @"com.ay.request.domain.error";
 #pragma mark - Request Action
 
 - (void)start {
-//    [self toggleAccessoriesWillStartCallBack];
     [[AYNetworkCenter sharedCenter] startRequest:self];
 }
 
 - (void)stop {
-//    [self toggleAccessoriesWillStopCallBack];
     self.delegate = nil;
     [[AYNetworkCenter sharedCenter] cancelRequest:self];
-//    [self toggleAccessoriesDidStopCallBack];
 }
 
 - (void)startWithCompletionBlockWithSuccess:(AYRequestCompletionBlock)success
