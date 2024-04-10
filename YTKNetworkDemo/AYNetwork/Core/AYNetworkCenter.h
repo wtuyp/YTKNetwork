@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AYNetworkCenter : NSObject
 
-@property (nonatomic, strong) NSString *baseUrl;
-@property (nonatomic, strong) NSString *cdnUrl;
+@property (nonatomic, copy) NSString *baseUrl;
+@property (nonatomic, copy) NSString *cdnUrl;
 
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSString *> *headerFields;    ///< 通用请求头
 
